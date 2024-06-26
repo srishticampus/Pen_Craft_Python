@@ -120,8 +120,13 @@ body {
 }
 
 .banner{
+    background-image: url('image\ 3.png');
     padding-top: 6rem;
     padding-left: 7rem;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; 
+    padding: 100px;
 }
 
 .banner h1{
