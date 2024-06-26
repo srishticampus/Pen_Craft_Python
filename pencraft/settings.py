@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-8%73f9fny28+u@#5&402lpknlznh#ygak6z1&59tjp04!-lmck
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1",
+    "python.srishticampus.tech",
+    "202.191.65.67",
+    "python.sicsglobal.com",]
 
 
 # Application definition
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -56,7 +60,7 @@ ROOT_URLCONF = 'pencraft.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['accounts/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,3 +132,4 @@ MEDIA_ROOT= os.path.join(BASE_DIR,'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+APPEND_SLASH=False
