@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from .models import UserReg
 
 @login_required(login_url='login')
 def HomePage(request):
@@ -28,14 +29,21 @@ def SignupPage(request):
             return HttpResponse("Your password and confirm password do not match!")
         else:
             my_user = User.objects.create_user(username=username, email=email, password=pass1)
-
             my_user.first_name = name
             my_user.save()
+            UserReg.objects.create(
+                user=my_user,
+                qualification=qualification,
+                phone_number=phone_number,
+                address=address,
+                location=location,
+                state=state,
+                city=city
+            )
 
             return redirect('login')
 
     return render(request, 'signup.html')
-
 def LoginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
