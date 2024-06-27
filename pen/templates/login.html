@@ -29,7 +29,7 @@
                 <div class="col-lg-6 signUp-hi">
                     <div class="signUp">
                         <h2 style="margin-top: 200px;">Login</h2>
-                        <form method="post" action="">
+                        <form method="post" action="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-12">
@@ -46,6 +46,7 @@
                             <div class="clearfix"></div>
                             <a class="ialready" href="{% url 'registration' %}">Don’t have an account? <b>Sign Up</b></a>
                         </form>
+                        
                     </div>
                 </div>
             </div>
