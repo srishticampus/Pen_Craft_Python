@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import UserReg
+from .models import UserReg,Master
 
 admin.site.register(UserReg)
-# Register your models here.
+admin.site.register(Master)
