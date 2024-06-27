@@ -109,18 +109,19 @@ body {
     margin-left: .5rem;
 }
 
-#hero{
+#hero {
     box-sizing: border-box;
-    background-image: url("./Assets/image\ 3.png");
+    background-image: url("../images/image\ 3.png");
     height: 90vh;
     width: 100%;
     background-repeat: no-repeat;
     background-size: cover;
-     background-position: top 75% right 0;
+    background-position: top 75% right 0;
 }
 
+
 .banner{
-    background-image: url('image\ 3.png');
+    /* background-image: url('image\ 3.png'); */
     padding-top: 6rem;
     padding-left: 7rem;
     background-size: cover;
@@ -151,7 +152,7 @@ body {
 #box{
 margin-left : 4rem;
 margin-top: -8rem;
-    background-image: url("./Assets/image\ 6.png");
+    background-image: url("../images/image\ 6.png");
     background-position: top 0 left 100%;
     height: 15rem;
     width:90%;
@@ -477,15 +478,15 @@ padding-top: 1rem;
 
 #box-4 {
     padding-bottom: 30rem;
-    background-image: url("./Assets/Frame\ 20.png");
+    background-image: url("../images/Frame\ 20.png");
     background-position: top 60% right 63%;
 }
 
 .elipsce-2{
- background-image: url("./Assets/Ellipse\ 2.png");   
+ background-image: url("../images/Ellipse\ 2.png");   
 }
 .elipsce-2{
-background-image: url("./Assets/Ellipse\ 3.png");
+background-image: url("../images/Ellipse\ 3.png");
 }
 
 .box-4-content{
@@ -566,7 +567,7 @@ left:47.5rem;
 }
 
 #box-5{
-    background-image: url("./Assets/Frame\ 131.png");
+    background-image: url("../images/Frame\ 131.png");
     background-position: top 0% right 63%;
     background-size: cover;
     height: 485px;
@@ -749,7 +750,7 @@ font-weight: 500;
 
 #landingpage_section{
     padding-top: 2rem;
-    background-image: url("./Assets/image\ 15.png");
+    background-image: url("../images/image\ 15.png");
     background-repeat: no-repeat;
     background-size: cover;
     margin-bottom: 3rem;
@@ -781,7 +782,7 @@ padding-bottom:3.5rem;
     padding-top: 1rem;
     padding:  10px 20px;
     color:#fff;
-background-image: url("./Assets/Frame\ 136.png") ; 
+background-image: url("../images/Frame\ 136.png") ; 
 background-size: contain;
 background-repeat: no-repeat;
     

@@ -11,6 +11,8 @@ class UserReg(models.Model):
     location = models.CharField(max_length=100)
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='profile_images/',blank=True,null=True)
 
     def __str__(self):
         return self.user.username
+    

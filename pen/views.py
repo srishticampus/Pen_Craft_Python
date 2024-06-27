@@ -1,3 +1,4 @@
+# views.py
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -17,33 +18,38 @@ def SignupPage(request):
         email = request.POST.get('email')
         pass1 = request.POST.get('password1')
         pass2 = request.POST.get('password2')
-        name = request.POST.get('name')
         qualification = request.POST.get('qualification')
         phone_number = request.POST.get('phone_number')
         address = request.POST.get('address')
         location = request.POST.get('location')
         state = request.POST.get('state')
         city = request.POST.get('city')
+        image = request.FILES.get('image')
 
         if pass1 != pass2:
             return HttpResponse("Your password and confirm password do not match!")
-        else:
+        
+        try:
             my_user = User.objects.create_user(username=username, email=email, password=pass1)
-            my_user.first_name = name
-            my_user.save()
-            UserReg.objects.create(
+
+            user_reg = UserReg.objects.create(
                 user=my_user,
                 qualification=qualification,
                 phone_number=phone_number,
                 address=address,
                 location=location,
                 state=state,
-                city=city
+                city=city,
+                image=image
             )
 
             return redirect('login')
 
+        except Exception as e:
+            return HttpResponse(f"Error creating user: {e}")
+
     return render(request, 'signup.html')
+
 def LoginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
