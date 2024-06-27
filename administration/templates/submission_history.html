@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission History - Pen Craft</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Submission History</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Plagiarism Mark</th>
+                    <th>Grammatical Mark</th>
+                    <th>Master Check Mark</th>
+                    <th>Total Mark</th>
+                    <th>Reviewed By</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for submission in submissions %}
+                <tr>
+                    <td>{{ submission.category }}</td>
+                    <td>{{ submission.title }}</td>
+                    <td>{{ submission.description }}</td>
+                    <td>{{ submission.plagiarism_mark }}</td>
+                    <td>{{ submission.grammatical_mark }}</td>
+                    <td>{{ submission.master_check_mark }}</td>
+                    <td>{{ submission.total_mark }}</td>
+                    <td>{{ submission.reviewed_by }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <a href="{% url 'submission_detail' submission.id %}" class="btn btn-info">View Details</a>
+
+        </table>
+    </div>
+</body>
+</html>

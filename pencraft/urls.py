@@ -24,6 +24,10 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 
     path('',include('pen.urls')),
+    path('administration/',include('administration.urls')),
+
+
+
 ]
 
 if settings . DEBUG:
