@@ -88,6 +88,19 @@ def coReg(request):
     data = Master.objects.all()
     return render(request, 'coReg.html', {"data": data, "msg": msg})
 
+def adminmaster(request):
+    msg = ''
+    data = Master.objects.all()
+    return render(request, 'adminmaster.html', {"data": data, "msg": msg})
+
+def approvemaster(request):
+    id = request.GET['id']
+    status = request.GET['status']
+    data = User.objects.get(id=id)
+    data.is_active = status
+    data.save()
+    return redirect("admintutors")
+
 @login_required(login_url='login')
 def LogoutPage(request):
     logout(request)
