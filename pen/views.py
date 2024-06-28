@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import UserReg, Master
 
+
 @login_required(login_url='login')
 def HomePage(request):
     return render(request, 'home.html')
@@ -88,18 +89,7 @@ def coReg(request):
     data = Master.objects.all()
     return render(request, 'coReg.html', {"data": data, "msg": msg})
 
-def adminmaster(request):
-    msg = ''
-    data = Master.objects.all()
-    return render(request, 'adminmaster.html', {"data": data, "msg": msg})
 
-def approvemaster(request):
-    id = request.GET['id']
-    status = request.GET['status']
-    data = User.objects.get(id=id)
-    data.is_active = status
-    data.save()
-    return redirect("adminmaster")
 
 @login_required(login_url='login')
 def LogoutPage(request):
