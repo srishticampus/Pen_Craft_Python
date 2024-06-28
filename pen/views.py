@@ -129,6 +129,17 @@ def admin_master_view(request):
     data = Master.objects.all()
     return render(request, 'master_view_request.html', {"data": data, "msg": msg})
 
+def view_submissions(request):
+    msg = ''
+    data = UserReg.objects.all()
+    return render(request, 'review_submissions.html', {"data": data, "msg": msg})
+
+
+def view_submissions(request):
+    submissions = WritingSubmission.objects.all()
+    return render(request, 'review_submissions.html', {"submissions": submissions})
+
+
 @login_required(login_url='login')
 def LogoutPage(request):
     logout(request)

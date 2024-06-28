@@ -22,7 +22,6 @@
         <div class="container">
             <div class="row margintorow">
                 <div class="col-md-12">
-
                     <a href="#" class="goback-topage">
                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="28" viewBox="0 0 27 28" fill="none">
                             <path
@@ -31,18 +30,15 @@
                         </svg>
                         Review Submissions
                     </a>
-
                 </div>
             </div>
             <div class="row">
-
-
-
+                {% for submission in submissions %}
                 <div class="col-md-6 col-lg-4 col-sm-12">
                     <div class="writer-card">
                         <div class="row">
                             <div class="col-md-12">
-                                <img class="img-fluid" src="user1.png" alt="user1">
+                                <img class="img-fluid" src="{{ submission.user.image.url }}" alt="{{ submission.user.username }}">
                             </div>
                         </div>
                         <div class="row">
@@ -50,7 +46,7 @@
                                 <h2>Writer name :</h2>
                             </div>
                             <div class="col-md-8">
-                                <p>Ashok AK</p>
+                                <p>{{ submission.user.user.username }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -58,7 +54,7 @@
                                 <h2>Title :</h2>
                             </div>
                             <div class="col-md-8">
-                                <p>Backyard Birds Making a Comeback in Urban Areas </p>
+                                <p>{{ submission.title }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -66,7 +62,7 @@
                                 <h2>Category :</h2>
                             </div>
                             <div class="col-md-8">
-                                <p>Article</p>
+                                <p>{{ submission.category }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -74,7 +70,7 @@
                                 <h2>Summary :</h2>
                             </div>
                             <div class="col-md-8">
-                                <p>Cities are becoming more bird-friendly, with residents planting native gardens and putting up feeders. This is leading to a rise in urban bird populations, with species like chickadees and finches thriving. The article explores the reasons behind this trend and the benefits of having birds in our cities.</p>
+                                <p>{{ submission.description }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -82,229 +78,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4 col-sm-12">
-                    <div class="writer-card">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <img class="img-fluid" src="user1.png" alt="user1">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Writer name :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Ashok AK</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Title :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Backyard Birds Making a Comeback in Urban Areas </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Category :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Article</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Summary :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Cities are becoming more bird-friendly, with residents planting native gardens and putting up feeders. This is leading to a rise in urban bird populations, with species like chickadees and finches thriving. The article explores the reasons behind this trend and the benefits of having birds in our cities.</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button class="acceptreview">Accept</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-sm-12">
-                    <div class="writer-card">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <img class="img-fluid" src="user1.png" alt="user1">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Writer name :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Ashok AK</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Title :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Backyard Birds Making a Comeback in Urban Areas </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Category :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Article</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Summary :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Cities are becoming more bird-friendly, with residents planting native gardens and putting up feeders. This is leading to a rise in urban bird populations, with species like chickadees and finches thriving. The article explores the reasons behind this trend and the benefits of having birds in our cities.</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button class="acceptreview">Accept</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-sm-12">
-                    <div class="writer-card">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <img class="img-fluid" src="user1.png" alt="user1">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Writer name :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Ashok AK</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Title :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Backyard Birds Making a Comeback in Urban Areas </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Category :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Article</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Summary :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Cities are becoming more bird-friendly, with residents planting native gardens and putting up feeders. This is leading to a rise in urban bird populations, with species like chickadees and finches thriving. The article explores the reasons behind this trend and the benefits of having birds in our cities.</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button class="acceptreview">Accept</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-sm-12">
-                    <div class="writer-card">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <img class="img-fluid" src="user1.png" alt="user1">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Writer name :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Ashok AK</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Title :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Backyard Birds Making a Comeback in Urban Areas </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Category :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Article</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Summary :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Cities are becoming more bird-friendly, with residents planting native gardens and putting up feeders. This is leading to a rise in urban bird populations, with species like chickadees and finches thriving. The article explores the reasons behind this trend and the benefits of having birds in our cities.</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button class="acceptreview">Accept</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-sm-12">
-                    <div class="writer-card">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <img class="img-fluid" src="user1.png" alt="user1">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Writer name :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Ashok AK</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Title :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Backyard Birds Making a Comeback in Urban Areas </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Category :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Article</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Summary :</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <p>Cities are becoming more bird-friendly, with residents planting native gardens and putting up feeders. This is leading to a rise in urban bird populations, with species like chickadees and finches thriving. The article explores the reasons behind this trend and the benefits of having birds in our cities.</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button class="acceptreview">Accept</button>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-
-
         </div>
     </div>
 
