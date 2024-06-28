@@ -47,9 +47,9 @@
                                 <td>{{d.qual}}</td>
                                 <td>
                                     {% if d.user.is_active %}
-                                    <a href="/approvetutor?id={{d.user.id}}&status=0" class="btn btn-danger">Make Inactive</a>
+                                    <a href="/approvemaster?id={{d.user.id}}&status=0" class="btn btn-danger">Make Inactive</a>
                                     {% else %}
-                                    <a href="/approvetutor?id={{d.user.id}}&status=1" class="btn btn-success">Make Active</a>
+                                    <a href="/approvemaster?id={{d.user.id}}&status=1" class="btn btn-success">Make Active</a>
                                     {% endif %}
                                 </td>
                             </tr>
