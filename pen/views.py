@@ -99,7 +99,7 @@ def approvemaster(request):
     data = User.objects.get(id=id)
     data.is_active = status
     data.save()
-    return redirect("admintutors")
+    return redirect("adminmaster")
 
 @login_required(login_url='login')
 def LogoutPage(request):
