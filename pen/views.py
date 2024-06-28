@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import UserReg, Master
 
-
 @login_required(login_url='login')
 def HomePage(request):
     return render(request, 'home.html')
@@ -15,7 +14,7 @@ def index(request):
 def registration(request):
     msg = ''
     if request.method == 'POST':
-        email = request.POST['email']
+        username = request.POST['username']
         address = request.POST['address']
         password = request.POST['password']
         password1 = request.POST['password1']
@@ -31,10 +30,10 @@ def registration(request):
 
         try:
             usr = User.objects.create_user(
-                username=email, password=password, is_active=1)
+                username=username, password=password, is_active=1)
             usr.save()
             par = UserReg.objects.create(
-                email=email, address=address, user=usr, qualification=qualification,
+                user=usr, address=address, qualification=qualification,
                 phone_number=phone_number, location=location, state=state, city=city, image=image)
             par.save()
             return redirect('login')  # Use named URL
@@ -44,21 +43,21 @@ def registration(request):
 
 def login_user(request):
     msg = ''
-    next_url = request.GET.get('next', 'home')  # Default to home if no next parameter
+    next_url = request.GET.get('next', 'home') 
     if request.method == 'POST':
-        email = request.POST['email']
+        username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(username=email, password=password)
+        user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
             if user.is_superuser:
                 return redirect("admin:index")
             elif user.is_staff:
-                data = Master.objects.get(email=email)
+                data = Master.objects.get(user=user)
                 request.session['id'] = data.id
                 return redirect(next_url)  # Redirect to next URL or home
             else:
-                data = UserReg.objects.get(email=email)
+                data = UserReg.objects.get(user=user)
                 request.session['id'] = data.id
                 return redirect(next_url)  # Redirect to next URL or home
         else:
@@ -68,19 +67,19 @@ def login_user(request):
 def coReg(request):
     msg = ''
     if request.method == 'POST':
-        name = request.POST['name']
+        username = request.POST['username']
         email = request.POST['email']
         phone = request.POST['phone']
         address = request.POST['address']
         password = request.POST['password']
         qual = request.POST['qual']
         field = request.POST['field']
-        img = request.FILES['proof']
+        img = request.FILES['img']
         try:
             usr = User.objects.create_user(
-                username=email, password=password, is_active=0, is_staff=1)
+                username=username, password=password, is_active=0, is_staff=1)
             usr.save()
-            tut = Master.objects.create(name=name, email=email, phone=phone, address=address,
+            tut = Master.objects.create(username=username, email=email, phone=phone, address=address,
                                         qual=qual, field=field, img=img, user=usr)
             tut.save()
             msg = 'Registration Successful..'
@@ -89,7 +88,18 @@ def coReg(request):
     data = Master.objects.all()
     return render(request, 'coReg.html', {"data": data, "msg": msg})
 
+def adminmaster(request):
+    msg = ''
+    data = Master.objects.all()
+    return render(request, 'adminmaster.html', {"data": data, "msg": msg})
 
+def approvemaster(request):
+    id = request.GET['id']
+    status = request.GET['status']
+    data = User.objects.get(id=id)
+    data.is_active = status
+    data.save()
+    return redirect("adminmaster")
 
 @login_required(login_url='login')
 def LogoutPage(request):

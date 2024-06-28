@@ -8,6 +8,6 @@ urlpatterns = [
     path('registration/', views.registration, name='registration'),
     path('login/', views.login_user, name='login'),
     path('coReg/', views.coReg, name='coReg'),
-#     path('adminmaster/', views.adminmaster,name='adminmaster'),
-#     path('approvemaster', views.approvemaster,name='approvemaster'),
+    path('adminmaster/', views.adminmaster,name='adminmaster'),
+    path('approvemaster', views.approvemaster,name='approvemaster'),
 ]
