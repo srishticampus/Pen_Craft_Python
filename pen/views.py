@@ -51,7 +51,7 @@ def login_user(request):
         if user is not None:
             login(request, user)
             if user.is_superuser:
-                return redirect("admin:index")
+                return redirect("admin_master_view")
             elif user.is_staff:
                 data = Master.objects.get(user=user)
                 request.session['id'] = data.id
@@ -99,7 +99,7 @@ def approvemaster(request):
     data = User.objects.get(id=id)
     data.is_active = status
     data.save()
-    return redirect("adminmaster")
+    return redirect("admin_master_view")
 
 @login_required
 def submit_writing(request):
@@ -124,6 +124,10 @@ def submit_writing(request):
 
     return render(request, 'submit_writing.html')
 
+def admin_master_view(request):
+    msg = ''
+    data = Master.objects.all()
+    return render(request, 'master_view_request.html', {"data": data, "msg": msg})
 
 @login_required(login_url='login')
 def LogoutPage(request):
