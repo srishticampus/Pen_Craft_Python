@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import UserReg, Master
+from .models import UserReg, Master, WritingSubmission
 
 @login_required(login_url='login')
 def HomePage(request):
@@ -100,6 +100,30 @@ def approvemaster(request):
     data.is_active = status
     data.save()
     return redirect("adminmaster")
+
+@login_required
+def submit_writing(request):
+    if request.method == 'POST':
+        category = request.POST.get('category')
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        file = request.FILES.get('file')
+
+        if category and title and description and file:
+            submission = WritingSubmission(
+                user=request.user,
+                category=category,
+                title=title,
+                description=description,
+                file=file
+            )
+            submission.save()
+            return redirect('home')  # Ensure this URL exists
+        else:
+            return HttpResponse("All fields are required.", status=400)
+
+    return render(request, 'submit_writing.html')
+
 
 @login_required(login_url='login')
 def LogoutPage(request):

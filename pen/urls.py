@@ -10,4 +10,5 @@ urlpatterns = [
     path('coReg/', views.coReg, name='coReg'),
     path('adminmaster/', views.adminmaster,name='adminmaster'),
     path('approvemaster', views.approvemaster,name='approvemaster'),
+    path('submit_writing/', views.submit_writing, name='submit_writing'),
 ]
