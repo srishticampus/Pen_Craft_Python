@@ -1,0 +1,34 @@
+<!-- review_submission.html -->
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Head content -->
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            {% for submission in submissions %}
+            <div class="col-md-6 col-lg-4 col-sm-12">
+                <div class="writer-card">
+                    <!-- Existing submission details -->
+                    <div class="row">
+                        {% if submission.status == 'opened' %}
+                        <a href="{% url 'accept_submission' submission.id %}" class="btn btn-primary">Accept</a>
+                        {% elif submission.status == 'under_review' %}
+                        <p>Status: Under Review</p>
+                        <form action="{% url 'check_content' submission.id %}" method="get">
+                            <button type="submit" class="btn btn-primary">Check Content</button>
+                        </form>
+                        {% elif submission.status == 'completed' %}
+                        <p>Status: Completed</p>
+                        <!-- Show results or other actions as needed -->
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
