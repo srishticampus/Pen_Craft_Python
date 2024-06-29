@@ -12,6 +12,7 @@
         .feedback-matrix {
             display: flex;
             flex-direction: column;
+            margin-top: 1rem;
         }
         .feedback-row {
             display: flex;
@@ -20,6 +21,10 @@
         }
         .feedback-row div {
             width: 50%;
+        }
+        .reviewed-by {
+            margin-top: 1rem;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -49,6 +54,19 @@
                     <div class="row">
                         <div class="col-md-4"><h2>Summary:</h2></div>
                         <div class="col-md-8"><p>{{ submission.description }}</p></div>
+                    </div>
+                    <!-- Reviewed by -->
+                    <div class="row reviewed-by">
+                        <div class="col-md-4"><h2>Reviewed by:</h2></div>
+                        <div class="col-md-8">
+                            {% if submission.feedbackdetails_set.exists %}
+                                {% for feedback in submission.feedbackdetails_set.all %}
+                                    <p>{{ feedback.reviewed_by }}</p>
+                                {% endfor %}
+                            {% else %}
+                                <p>No feedback available</p>
+                            {% endif %}
+                        </div>
                     </div>
                     <!-- Matrix for feedback details -->
                     <div class="feedback-matrix">
