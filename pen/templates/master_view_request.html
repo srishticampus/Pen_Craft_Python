@@ -49,9 +49,15 @@
                             <path fill="currentColor"
                                 d="M12 21v-2h7V5h-7V3h7q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm-2-4l-1.375-1.45l2.55-2.55H3v-2h8.175l-2.55-2.55L10 7l5 5z" />
                         </svg>
-                        <div class="admin-Logout-content">
-                            <h3>Logout</h3>
+                        {% if user.is_authenticated %}
+                        <div class="icon">
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger" style="background-color: transparent; border: 2px solid blue; color: blue;">Logout</button>
+
+                            </form>
                         </div>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -63,21 +69,21 @@
             <div class="col-md-2">
                 <div class="sidebar">
                     <div class="dashboard-box1 border">
-                        <h5>Dashboard &nbsp;&nbsp;></h5>
+                        <a style="text-decoration: none; color: white; font-weight: 100; font-size: 12px;" href="{% url 'admin_dashboard' %}">Dashboard ></a>
                     </div>
                     <h3>Master Writers</h3>
                     <div class="dashboard-box2 border">
-                        <h5>View request &nbsp;&nbsp;></h5>
+                        <a style="text-decoration: none; color: white; font-weight: 100; font-size: 12px;" href="{% url 'admin_master_view' %}">View request ></a>
                     </div>
                     <div class="dashboard-box3 border">
-                        <h5>All master writers &nbsp;&nbsp;></h5>
+                        <a style="text-decoration: none; color: white; font-weight: 100; font-size: 12px;" href="{% url 'all_master' %}">All master writers ></a>
                     </div>
                     <h3>Users</h3>
                     <div class="dashboard-box4 border">
-                        <h5>View authors &nbsp;&nbsp;></h5>
+                        <a style="text-decoration: none; color: white; font-weight: 100; font-size: 12px;" href="{% url 'all_writters' %}">View authors ></a>
                     </div>
                     <div class="dashboard-box5 border">
-                        <h5>Submission history &nbsp;&nbsp;></h5>
+                        <a style="text-decoration: none; color: white; font-weight: 100; font-size: 12px;" href="{% url 'submission_history' %}">Submission history ></a>
                     </div>
                 </div>
             </div>

@@ -200,7 +200,6 @@ def index(request):
     return render(request, 'landing_page.html')
 
 def registration(request):
-    msg = ''
     if request.method == 'POST':
         username = request.POST.get('username')
         email = request.POST.get('email')
@@ -213,28 +212,31 @@ def registration(request):
         state = request.POST.get('state')
         city = request.POST.get('city')
 
-        image = request.FILES.get('image')  # Use get() to handle missing field
+        image = request.FILES.get('image')
 
         if password != password1:
-            return HttpResponse("Your password and confirm password do not match!")
+            messages.error(request, "Your password and confirm password do not match!")
+            return render(request, 'registration.html')
 
         try:
             usr = User.objects.create_user(
                 username=username, email=email, password=password, is_active=1)
             usr.save()
             
-            # Check if image is provided, set a default if not
             if not image:
-                image = 'default/path/to/default/image.jpg'  # or handle as needed
+                image = 'default/path/to/default/image.jpg'
 
             par = UserReg.objects.create(
                 user=usr, address=address, qualification=qualification,
                 phone_number=phone_number, location=location, state=state, city=city, image=image)
             par.save()
-            return redirect('login')  # Use named URL
+
+            messages.success(request, "Registration successful! You can now log in.")
+            return redirect('login') 
         except Exception as e:
-            msg = f'Something went wrong: {str(e)}'  # Provide specific error message
-    return render(request, 'registration.html', {"msg": msg})
+            messages.error(request, f'Something went wrong: {str(e)}') 
+    
+    return render(request, 'registration.html')
 
 
 def login_user(request):
@@ -261,34 +263,49 @@ def login_user(request):
     return render(request, 'login.html', {"msg": msg})
 
 def coReg(request):
-    msg = ''
+    error_message = None
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
         phone = request.POST['phone']
         address = request.POST['address']
         password = request.POST['password']
+        password1 = request.POST['password1']
         qual = request.POST['qual']
         field = request.POST['field']
-        img = request.FILES['img']
+        img = request.FILES.get('img')  
+
+        if password != password1:
+            messages.error(request, "Your password and confirm password do not match!")
+            return redirect('coReg')  
+
+        if not img:
+            error_message = 'Image is required. Please select an image to upload.'
+            data = Master.objects.all()
+            return render(request, 'coReg.html', {"data": data, "error_message": error_message})
+
         try:
             usr = User.objects.create_user(
-                username=username, password=password, is_active=0, is_staff=1)
+                username=username, password=password, is_active=False, is_staff=True)
             usr.save()
             tut = Master.objects.create(username=username, email=email, phone=phone, address=address,
                                         qual=qual, field=field, img=img, user=usr)
             tut.save()
-            msg = 'Registration Successful..'
-        except:
-            msg = 'Something went wrong..'
+            messages.success(request, 'Registration Successful. Please wait for admin approval.')
+            return redirect('login')
+        except Exception as e:
+            messages.error(request, 'Something went wrong: ' + str(e))
+
     data = Master.objects.all()
-    return render(request, 'coReg.html', {"data": data, "msg": msg})
+    return render(request, 'coReg.html', {"data": data})
+
 
 def adminmaster(request):
     msg = ''
     data = Master.objects.all()
     return render(request, 'adminmaster.html', {"data": data, "msg": msg})
 
+@login_required(login_url='login')
 def approvemaster(request):
     id = request.GET['id']
     status = request.GET['status']
@@ -322,11 +339,25 @@ def submit_writing(request):
     return render(request, 'submit_writing.html')
 
 
-
+@login_required(login_url='login')
 def admin_master_view(request):
     msg = ''
     data = Master.objects.all()
     return render(request, 'master_view_request.html', {"data": data, "msg": msg})
+@login_required(login_url='login')
+def all_master(request):
+    msg = ''
+    datas = Master.objects.all()
+    return render(request, 'all_master.html', {"datas": datas, "msg": msg})
+@login_required(login_url='login')
+def all_writters(request):
+    msg = ''
+    content = UserReg.objects.all()
+    return render(request, 'all_writters.html', {"content": content, "msg": msg})
+@login_required(login_url='login')
+def admin_dashboard(request):
+    return render(request,'admin_dashboard.html')
+
 
 # def view_submissions(request):
 #     msg = ''
@@ -335,13 +366,14 @@ def admin_master_view(request):
 
 def is_staff(user):
     return user.is_staff
-
+@login_required(login_url='login')
 @user_passes_test(is_staff)
 def view_submissions(request):
     submissions = WritingSubmission.objects.filter(status__in=['submitted', 'opened and under review'])
     return render(request, 'review_submissions.html', {"submissions": submissions})
 
-#accept     
+#accept 
+# @login_required(login_url='login')    
 def accept_submission(request, submission_id):
     submission = get_object_or_404(WritingSubmission, id=submission_id)
     submission.status = 'open'  # Update status to 'open' when accepted
@@ -362,7 +394,8 @@ def save_feedback(request, submission_id):
         spelling_mark = float(request.POST.get('spelling_mark', 0))
         grammar_mark = float(request.POST.get('grammar_mark', 0))
         plagiarism_mark = request.POST.get('plagiarism_mark', '0').replace('%', '')
-        total_mark = float(request.POST.get('total_mark', 0))
+        total_mark = float(request.POST.get('total_mark', 0))  # Already includes master mark
+        master_mark = float(request.POST.get('master_mark', 0))
 
         # Convert plagiarism_mark to float
         plagiarism_mark = float(plagiarism_mark)
@@ -375,7 +408,7 @@ def save_feedback(request, submission_id):
             spelling_mark=spelling_mark,
             grammar_mark=grammar_mark,
             plagiarism_mark=plagiarism_mark,
-            total_mark=total_mark,
+            total_mark=total_mark,  # Do not add master mark again
             reviewed_by=reviewed_by
         )
         return redirect('home')  # Change to the appropriate redirect URL
@@ -406,6 +439,8 @@ def subm_his_user(request):
     }
     
     return render(request, 'subm_his_user.html', context)
+
+
 
 
 

@@ -1,170 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Checking</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Content Checking | Pen Craft</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="style_new.css">
+    <!-- Include jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
-        /* Your existing CSS styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        .container {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            width: 60%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        .header {
-            background-color: #ececec;
-            padding: 15px;
-            text-align: center;
-            font-size: 1.5em;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-        }
-        .content {
-            padding: 20px;
-        }
-        .uploaded-file {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-            height: 200px;
-            overflow-y: auto;
-        }
-        .check-button {
-            display: block;
+        /* Loading screen styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 10px;
-            background-color: #4e73df;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .footer {
-            background-color: #2b79e2;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-        .footer a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .results {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
             display: none;
-            padding: 20px;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
         }
-        .result-marks {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
-        .result-marks div {
-            text-align: center;
-        }
-        .save-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #6a1b9a;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-            text-align: center;
-        }
-        .feedback-section {
-            margin-top: 20px;
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.4em;
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="header">
-            Content Checking
-        </div>
-        <div class="content">
-            <div class="uploaded-file">
-                {{ content|safe }}
-            </div>
-            <button class="check-button" id="check-content-button">Check Content</button>
-        </div>
-        <div class="results" id="results">
-            <form id="feedbackForm" method="post" action="{% url 'save_feedback' submission_id=submission_id %}">
-                {% csrf_token %}
-                <div class="result-marks">
-                    <div>
-                        Spelling<input type="text" id="spelling_mark" name="spelling_mark" readonly>
-                    </div>
-                    <div>
-                        Grammar<input type="text" id="grammar_mark" name="grammar_mark" readonly>
-                    </div>
-                    <div>
-                        Plagiarism<input type="text" id="plagiarism_mark" name="plagiarism_mark" readonly>
-                    </div>
-                    <div>
-                        Total Mark<input type="text" id="total_mark" name="total_mark" >
-                    </div>
-                </div>
-                <button class="save-button" type="submit">Save</button>
-            </form>
-        </div>
-        <div class="footer">
-            <div>Pen Craft</div>
-            <div>
-                <a href="#">Terms of Service</a>
-                <a href="#">Privacy Policy</a>
-            </div>
-            <div>
-                <a href="tel:+911234567890">(+91) 123-456-7890</a>
-                <a href="mailto:pencraft123@gmail.com">pencraft123@gmail.com</a>
-            </div>
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
         </div>
     </div>
 
+    <div class="fullpagecontainer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="goback-topage">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="28" viewBox="0 0 27 28" fill="none">
+                            <path d="M11.4704 26.3765L0.62715 15.5412C0.429711 15.3351 0.274913 15.0921 0.171637 14.826C-0.0453818 14.2983 -0.0456005 13.7063 0.171028 13.1784C0.274108 12.9123 0.428726 12.6691 0.626013 12.4629L11.4613 1.61964C11.6633 1.41744 11.9032 1.25702 12.1673 1.14753C12.4313 1.03804 12.7143 0.981632 13.0002 0.981527C13.5775 0.981314 14.1312 1.21044 14.5396 1.6185C14.948 2.02657 15.1775 2.58014 15.1777 3.15744C15.1779 3.73474 14.9488 4.28849 14.5407 4.69685L7.38947 11.8317L23.8434 11.8256C24.4184 11.8254 24.9699 12.0536 25.3766 12.46C25.7833 12.8664 26.0119 13.4177 26.0121 13.9927C26.0123 14.5676 25.7841 15.1191 25.3777 15.5258C24.9713 15.9325 24.42 16.1611 23.845 16.1613L7.39107 16.1674L14.5476 23.297C14.7509 23.4985 14.9122 23.7382 15.0224 24.0023C15.1325 24.2664 15.1893 24.5497 15.1894 24.8359C15.1895 25.1221 15.133 25.4055 15.023 25.6697C14.913 25.9339 14.7519 26.1737 14.5487 26.3753C14.3473 26.5786 14.1076 26.74 13.8435 26.8501C13.5793 26.9603 13.296 27.017 13.0098 27.0172C12.7236 27.0173 12.4403 26.9607 12.176 26.8507C11.9118 26.7408 11.672 26.5796 11.4704 26.3765Z" fill="#00A3FF" />
+                        </svg>
+                        Content Checking
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 writer-card">
+                    {{ content|safe }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button class="acceptreview" id="check-content-button" onclick="showContent()">Check Content</button>
+                </div>
+            </div>
+            <div id="content-details" style="display: none;">
+                <div class="row">
+                    <form id="feedbackForm" method="post" action="{% url 'save_feedback' submission_id=submission_id %}">
+                        {% csrf_token %}
+                        <div class="col-md-12 text-center">
+                            <label for="master-mark" class="form-label">Master Mark</label>
+                            <input type="text" id="master-mark" name="master_mark" class="form-control" style="display:inline-block; width: auto; margin-left: 10px;">
+                        </div>
+                        <div class="row text-center mt-4">
+                            <div class="col-md-3">
+                                <div class="content-box">
+                                    <p>Spelling</p>
+                                    <input type="text" id="spelling_mark" name="spelling_mark" class="form-control" readonly>
+                                    <input type="hidden" id="spelling_mark_hidden" name="spelling_mark_hidden">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="content-box">
+                                    <p>Grammar</p>
+                                    <input type="text" id="grammar_mark" name="grammar_mark" class="form-control" readonly>
+                                    <input type="hidden" id="grammar_mark_hidden" name="grammar_mark_hidden">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="content-box">
+                                    <p>Plagiarism</p>
+                                    <input type="text" id="plagiarism_mark" name="plagiarism_mark" class="form-control" readonly>
+                                    <input type="hidden" id="plagiarism_mark_hidden" name="plagiarism_mark_hidden">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="content-box">
+                                    <p>Total Mark</p>
+                                    <input type="text" id="total_mark" name="total_mark" class="form-control" readonly>
+                                    <input type="hidden" id="total_mark_hidden" name="total_mark_hidden">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4 text-center">
+                            <div class="col-md-12">
+                                <button class="save-button" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="pen-craft-logo.png" alt="Pen Craft Logo" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Terms & Policies</h4>
+                    <p>Terms of Service</p>
+                    <p>Privacy Policy</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Contact</h4>
+                    <p>+91 1234567890</p>
+                    <p>pencraft32@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
     <script>
-        $(document).ready(function(){
-            $('#check-content-button').click(function(){
-                $.ajax({
-                    url: "{% url 'check_content' submission_id=submission_id %}",
-                    type: "GET",
-                    success: function(response) {
-                        if (response.results) {
-                            $('#spelling_mark').val(response.results.spelling_errors + '');
-                            $('#grammar_mark').val(response.results.grammar_errors + '');
-                            $('#plagiarism_mark').val(response.results.plagiarism_percentage + '%');
-                            $('#total_mark').val(response.results.total_score);
-                            $('#results').show();
-                            $('#check-content-button').hide(); // Hide the check button
-                        }
-                    },
-                    error: function(response) {
-                        alert('An error occurred while checking the content.');
-                    }
-                });
-            });
+        let initialTotalMark = 0;
+
+        function showContent() {
+    // Show loading overlay
+    document.getElementById('loading-overlay').style.display = 'flex';
+
+    // Show content details and hide button
+    document.getElementById('content-details').style.display = 'block';
+    document.getElementById('check-content-button').style.display = 'none';
+
+    $.ajax({
+        url: "{% url 'check_content' submission_id=submission_id %}",
+        type: "GET",
+        success: function(response) {
+            if (response.results) {
+                initialTotalMark = response.results.total_score;
+                $('#spelling_mark').val(response.results.spelling_errors + '');
+                $('#grammar_mark').val(response.results.grammar_errors + '');
+                $('#plagiarism_mark').val(response.results.plagiarism_percentage + '%');
+                $('#total_mark').val(initialTotalMark);
+
+                // Update hidden inputs
+                $('#spelling_mark_hidden').val(response.results.spelling_errors);
+                $('#grammar_mark_hidden').val(response.results.grammar_errors);
+                $('#plagiarism_mark_hidden').val(response.results.plagiarism_percentage);
+                $('#total_mark_hidden').val(initialTotalMark);
+            }
+        },
+        error: function() {
+            alert('An error occurred while checking the content.');
+        },
+        complete: function() {
+            // Hide loading overlay after request completes
+            document.getElementById('loading-overlay').style.display = 'none';
+        }
+    });
+}
+
+
+        // Update total mark when master mark is changed
+        $('#master-mark').on('input', function() {
+            let masterMark = parseFloat($('#master-mark').val()) || 0;
+    $('#total_mark').val(initialTotalMark + masterMark);
+    $('#total_mark_hidden').val(initialTotalMark + masterMark);
         });
     </script>
 </body>
+
 </html>

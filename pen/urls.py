@@ -29,9 +29,11 @@ urlpatterns = [
     path('subm_his_user/', views.subm_his_user, name='subm_his_user'),
     
 
-
+    path('admin_dashboard/', views.admin_dashboard,name='admin_dashboard'),
     path('adminmaster/', views.adminmaster,name='adminmaster'),
     path('approvemaster', views.approvemaster,name='approvemaster'),
     path('admin_master_view', views.admin_master_view,name='admin_master_view'),
+    path('all_master', views.all_master,name='all_master'),
+    path('all_writters', views.all_writters,name='all_writters'),
     # path main folder latest version 1.1
 ]

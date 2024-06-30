@@ -38,15 +38,25 @@
                 <p><a href="">Home</a></p>
                 <p><a href="">About Us</a></p>
 
-                <select class="custom-select">
-                    <option>Submission</option>
-                    <option value="">Submit Writing</option>
-                    <option>Option 2</option>
-                    <option>Option 3</option>
-                </select>
-
-                <p><a href="/submit_writing">Master Writers</a></p>
-                <p><a href="">Check Document</a></p>
+                {% if user.is_staff %}
+                <div class="dropdown">
+                    <button class="dropbtn">Submission</button>
+                    <div class="dropdown-content">
+                      <a href="{% url 'view_submissions' %}">Review submission</a>
+                      <a href="{% url 'submission_history' %}">Submission history</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="dropdown">
+                    <button class="dropbtn">Submission</button>
+                    <div class="dropdown-content">
+                      <a href="{% url 'submission_status' %}">Track submission</a>
+                      <a href="{% url 'subm_his_user' %}">View submission history</a>
+                    </div>
+                </div>
+                <p><a href="">Master Writers</a></p>
+                <p><a href="{% url 'submit_writing' %}">Check Document</a></p>
+                {% endif %}
                 <p><a href="">Chat</a></p>
                 <p><a href="">Contact Us</a></p>
 

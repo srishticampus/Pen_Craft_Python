@@ -31,35 +31,19 @@
             <img src="{% static 'images/Group 9.png' %}">
 
             <form class="d-flex usernav-links" role="search">
-                {% if user.is_authenticated %}
-                <p><a href="{% url 'home' %}">Home</a></p>
-                <p><a href="#">About Us</a></p>
-                <select class="custom-select">
-                    <option>Submission</option>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option>Option 3</option>
-                </select>
-                <p><a href="#">Master Writers</a></p>
-                <p><a href="#">Check Document</a></p>
-                <p><a href="#">Chat</a></p>
-                <p><a href="#">Contact Us</a></p>
-                {% else %}
                 <p><a href="{% url 'home' %}">Home</a></p>
                 <p><a href="#">About Us</a></p>
                 <p><a href="#">Contact Us</a></p>
-                {% endif %}
             </form>
-
-            <div class="icon">
-                {% if user.is_authenticated %}
-                <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Logout</button>
-                </form>
-                {% else %}
-                <a href="{% url 'registration' %}" class="btn btn-primary">Signup</a>
-                {% endif %}
+            <div class="dropdown">
+                <a class="btn btn-transparent" href="{% url 'login' %}">Login</a>  
+                <a class="btn btn-bordered dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    Signup
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="{% url 'registration' %}">Writer</a></li>
+                    <li><a class="dropdown-item" href="{% url 'coReg' %}">Master Writer</a></li>
+                </ul>
             </div>
         </div>
     </nav>
