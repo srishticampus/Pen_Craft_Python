@@ -13,7 +13,7 @@ from .models import WritingSubmission
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import UserReg, Master, WritingSubmission
 import chardet
 
@@ -202,32 +202,40 @@ def index(request):
 def registration(request):
     msg = ''
     if request.method == 'POST':
-        username = request.POST['username']
-        address = request.POST['address']
-        password = request.POST['password']
-        password1 = request.POST['password1']
-        qualification = request.POST['qualification']
-        phone_number = request.POST['phone_number']
-        location = request.POST['location']
-        state = request.POST['state']
-        city = request.POST['city']
-        image = request.FILES['image']
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        password = request.POST.get('password')
+        password1 = request.POST.get('password1')
+        qualification = request.POST.get('qualification')
+        phone_number = request.POST.get('phone_number')
+        location = request.POST.get('location')
+        state = request.POST.get('state')
+        city = request.POST.get('city')
+
+        image = request.FILES.get('image')  # Use get() to handle missing field
 
         if password != password1:
             return HttpResponse("Your password and confirm password do not match!")
 
         try:
             usr = User.objects.create_user(
-                username=username, password=password, is_active=1)
+                username=username, email=email, password=password, is_active=1)
             usr.save()
+            
+            # Check if image is provided, set a default if not
+            if not image:
+                image = 'default/path/to/default/image.jpg'  # or handle as needed
+
             par = UserReg.objects.create(
                 user=usr, address=address, qualification=qualification,
                 phone_number=phone_number, location=location, state=state, city=city, image=image)
             par.save()
             return redirect('login')  # Use named URL
-        except:
-            msg = 'Something went wrong..'
+        except Exception as e:
+            msg = f'Something went wrong: {str(e)}'  # Provide specific error message
     return render(request, 'registration.html', {"msg": msg})
+
 
 def login_user(request):
     msg = ''
@@ -325,9 +333,12 @@ def admin_master_view(request):
 #     data = UserReg.objects.all()
 #     return render(request, 'review_submissions.html', {"data": data, "msg": msg})
 
+def is_staff(user):
+    return user.is_staff
 
+@user_passes_test(is_staff)
 def view_submissions(request):
-    submissions = WritingSubmission.objects.all()
+    submissions = WritingSubmission.objects.filter(status__in=['submitted', 'opened and under review'])
     return render(request, 'review_submissions.html', {"submissions": submissions})
 
 #accept     
