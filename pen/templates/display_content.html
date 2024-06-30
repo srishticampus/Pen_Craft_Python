@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -7,7 +8,7 @@
     <title>Content Checking | Pen Craft</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="style_new.css">
+    <link rel="stylesheet" href="{% static 'css/style_new.css' %}">
     <!-- Include jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
@@ -30,6 +31,66 @@
             height: 3rem;
             border-width: 0.4em;
         }
+
+        /* body {
+    background-color: #D1D1D1;
+} */
+
+.form-label {
+    color: #6495ED;
+    margin-right: 10px;
+}
+
+.master-mark-input {
+    display: inline-block;
+    width: 100px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.content-box {
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.content-box p {
+    font-size: 18px;
+    color: #6495ED;
+}
+
+.form-control {
+    text-align: center;
+    font-size: 24px;
+    border: none;
+    background: none;
+    font-weight: bold;
+    color: black;
+}
+
+textarea.form-control {
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    resize: none;
+}
+
+.save-button {
+    background-color: #5C6BF6;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background-color: #4a56d0;
+}
+
     </style>
 </head>
 
@@ -67,35 +128,35 @@
                     <form id="feedbackForm" method="post" action="{% url 'save_feedback' submission_id=submission_id %}">
                         {% csrf_token %}
                         <div class="col-md-12 text-center">
-                            <label for="master-mark" class="form-label">Master Mark</label>
-                            <input type="text" id="master-mark" name="master_mark" class="form-control" style="display:inline-block; width: auto; margin-left: 10px;">
+                            <label for="master-mark" class="form-label">Master Mark:</label>
+                            <input type="text" id="master-mark" name="master_mark" class="form-control master-mark-input">
                         </div>
                         <div class="row text-center mt-4">
                             <div class="col-md-3">
                                 <div class="content-box">
                                     <p>Spelling</p>
-                                    <input type="text" id="spelling_mark" name="spelling_mark" class="form-control" readonly>
+                                    <input type="text" id="spelling_mark" name="spelling_mark" class="form-control" readonly value="95%">
                                     <input type="hidden" id="spelling_mark_hidden" name="spelling_mark_hidden">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="content-box">
                                     <p>Grammar</p>
-                                    <input type="text" id="grammar_mark" name="grammar_mark" class="form-control" readonly>
+                                    <input type="text" id="grammar_mark" name="grammar_mark" class="form-control" readonly value="65%">
                                     <input type="hidden" id="grammar_mark_hidden" name="grammar_mark_hidden">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="content-box">
                                     <p>Plagiarism</p>
-                                    <input type="text" id="plagiarism_mark" name="plagiarism_mark" class="form-control" readonly>
+                                    <input type="text" id="plagiarism_mark" name="plagiarism_mark" class="form-control" readonly value="45%">
                                     <input type="hidden" id="plagiarism_mark_hidden" name="plagiarism_mark_hidden">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="content-box">
                                     <p>Total Mark</p>
-                                    <input type="text" id="total_mark" name="total_mark" class="form-control" readonly>
+                                    <input type="text" id="total_mark" name="total_mark" class="form-control" readonly value="95%">
                                     <input type="hidden" id="total_mark_hidden" name="total_mark_hidden">
                                 </div>
                             </div>
@@ -107,31 +168,48 @@
                         </div>
                     </form>
                     
+                    
                 </div>
             </div>
         </div>
     </div>
-    <footer>
+    <section id="footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <img src="pen-craft-logo.png" alt="Pen Craft Logo" />
+
+                <div class="col-md-6">
+                    <div>
+                        <img src="{% static 'images/Group 9 (1).png' %}">
+                    </div>
+                    
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <h4>Terms & Policies</h4>
-                    <p>Terms of Service</p>
-                    <p>Privacy Policy</p>
+                <div class="col-md-2">
+                    <div class="footer_content">
+                        <h3>Terms & Policies</h3>
+                        <ul class="footer_list">
+                            <li>Terms of Service</li>
+                            <li>Priacy Policy</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <h4>Contact</h4>
-                    <p>+91 1234567890</p>
-                    <p>pencraft32@gmail.com</p>
+                <div class="col-md-2">
+<!-- blank space -->
                 </div>
+                <div class="col-md-2">
+
+                    <div class="footer_content">
+                        <h3>Contact</h3>
+                        <ul class="footer_list">
+                            <li>(+91)1234567890</li>
+                            <li>pencraft123@gmail.com</li>
+                        </ul>
+                    </div>
+                  
+                </div>
+
             </div>
         </div>
-    </footer>
+    </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
