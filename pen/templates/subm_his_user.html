@@ -77,13 +77,25 @@
                                 <p>{{ submission.description }}</p>
                             </div>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer card-footer-flex">
                             {% if submission.feedbackdetails_set.exists %}
                             {% for feedback in submission.feedbackdetails_set.all %}
-                            <div class="box">Spelling {{ feedback.spelling_mark|floatformat:1 }}</div>
-                            <div class="box">Grammar {{ feedback.grammar_mark|floatformat:1 }}</div>
-                            <div class="box">Total Mark {{ feedback.total_mark|floatformat:1 }}</div>
-                            <div class="box">Plagiarism {{ feedback.plagiarism_mark|floatformat:1 }}</div>
+                            <div class="box">
+                                <div class="label">Spelling</div> 
+                                <div class="value">{{ feedback.spelling_mark|floatformat:1 }}</div>
+                            </div>
+                            <div class="box">
+                                <div class="label">Grammar</div> 
+                                <div class="value">{{ feedback.grammar_mark|floatformat:1 }}</div>
+                            </div>
+                            <div class="box">
+                                <div class="label">Total Mark</div> 
+                                <div class="value">{{ feedback.total_mark|floatformat:1 }}</div>
+                            </div>
+                            <div class="box">
+                                <div class="label">Plagiarism</div> 
+                                <div class="value">{{ feedback.plagiarism_mark|floatformat:1 }}</div>
+                            </div>
                             {% endfor %}
                             {% else %}
                             <p>No feedback</p>

@@ -78,8 +78,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <!-- <h5 class="card-title">{{ submission.title }}</h5> -->
-                            <p class="card-text"><strong>Status:</strong> {{ submission.get_status_display }}</p>
+                            <p class="card-text status-tracking"><strong>Status:</strong> {{ submission.get_status_display }}</p>
                             {% if submission.status == 'under_review' %}
                             <form action="{% url 'check_content' submission.id %}" method="get">
                                 <button type="submit" class="btn btn-primary">Check Content</button>
