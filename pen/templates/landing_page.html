@@ -35,6 +35,14 @@
                 <p><a href="#">About Us</a></p>
                 <p><a href="#">Contact Us</a></p>
             </form>
+            {% if user.is_authenticated %}
+            <div class="icon">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </div>
+            {% else %}
             <div class="dropdown">
                 <a class="btn btn-transparent" href="{% url 'login' %}">Login</a>  
                 <a class="btn btn-bordered dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -44,6 +52,7 @@
                     <li><a class="dropdown-item" href="{% url 'registration' %}">Writer</a></li>
                     <li><a class="dropdown-item" href="{% url 'coReg' %}">Master Writer</a></li>
                 </ul>
+            {% endif %}
             </div>
         </div>
     </nav>

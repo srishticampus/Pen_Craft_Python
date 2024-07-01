@@ -211,18 +211,32 @@ def registration(request):
         location = request.POST.get('location')
         state = request.POST.get('state')
         city = request.POST.get('city')
-
         image = request.FILES.get('image')
 
+        # Validate passwords
         if password != password1:
             messages.error(request, "Your password and confirm password do not match!")
             return render(request, 'registration.html')
 
+        # Validate phone number
+        if len(phone_number) != 10:
+            messages.error(request, "Phone number must be exactly 10 digits.")
+            return render(request, 'registration.html')
+
         try:
+            # Check if the username or email already exists
+            if User.objects.filter(username=username).exists():
+                messages.error(request, "Username already exists.")
+                return render(request, 'registration.html')
+            if User.objects.filter(email=email).exists():
+                messages.error(request, "Email already exists.")
+                return render(request, 'registration.html')
+
+            # Create user
             usr = User.objects.create_user(
                 username=username, email=email, password=password, is_active=1)
             usr.save()
-            
+
             if not image:
                 image = 'default/path/to/default/image.jpg'
 
@@ -233,14 +247,14 @@ def registration(request):
 
             messages.success(request, "Registration successful! You can now log in.")
             return redirect('login') 
+
         except Exception as e:
             messages.error(request, f'Something went wrong: {str(e)}') 
-    
+
     return render(request, 'registration.html')
 
 
 def login_user(request):
-    msg = ''
     next_url = request.GET.get('next', 'home') 
     if request.method == 'POST':
         username = request.POST['username']
@@ -259,11 +273,10 @@ def login_user(request):
                 request.session['id'] = data.id
                 return redirect(next_url)  # Redirect to next URL or home
         else:
-            msg = 'Invalid email or password.'
-    return render(request, 'login.html', {"msg": msg})
+            messages.error(request, 'Invalid username or password.')
+    return render(request, 'login.html')
 
 def coReg(request):
-    error_message = None
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
@@ -280,9 +293,8 @@ def coReg(request):
             return redirect('coReg')  
 
         if not img:
-            error_message = 'Image is required. Please select an image to upload.'
-            data = Master.objects.all()
-            return render(request, 'coReg.html', {"data": data, "error_message": error_message})
+            messages.error(request, 'Image is required. Please select an image to upload.')
+            return redirect('coReg')
 
         try:
             usr = User.objects.create_user(
@@ -296,8 +308,7 @@ def coReg(request):
         except Exception as e:
             messages.error(request, 'Something went wrong: ' + str(e))
 
-    data = Master.objects.all()
-    return render(request, 'coReg.html', {"data": data})
+    return render(request, 'coReg.html')
 
 
 def adminmaster(request):
@@ -426,6 +437,17 @@ def submission_history(request):
     
     return render(request, 'submission_history.html', context)
 
+
+def master_sub_hist(request):
+    # Fetch all submissions and prefetch the related feedback details
+    submissions = WritingSubmission.objects.prefetch_related('feedbackdetails_set').all()
+    
+    context = {
+        'submissions': submissions,
+    }
+    
+    return render(request, 'master_sub_hist.html', context)
+
 def subm_his_user(request):
     # Ensure the user is authenticated
     if not request.user.is_authenticated:
@@ -440,6 +462,54 @@ def subm_his_user(request):
     
     return render(request, 'subm_his_user.html', context)
 
+@login_required
+def profile(request):
+    user_reg = UserReg.objects.get(user=request.user)
+    context = {
+        'user': request.user,
+        'user_reg': user_reg,
+    }
+    return render(request, 'profile.html', context)
+
+def edit_profile(request):
+    user_reg = UserReg.objects.get(user=request.user)
+    
+    if request.method == 'POST':
+        username = request.POST['username']
+        address = request.POST['address']
+        email = request.POST['email']
+        qualification = request.POST['qualification']
+        phone_number = request.POST['phone_number']
+        location = request.POST['location']
+        state = request.POST['state']
+        city = request.POST['city']
+        image = request.FILES.get('image', user_reg.image)
+
+        try:
+            user = request.user
+            user.username = username
+            user.email = email
+            user.save()
+            
+            user_reg.address = address
+            user_reg.qualification = qualification
+            user_reg.phone_number = phone_number
+            user_reg.location = location
+            user_reg.state = state
+            user_reg.city = city
+            user_reg.image = image
+            user_reg.save()
+
+            return redirect('home')
+        except Exception as e:
+            return HttpResponse(f"Something went wrong: {e}")
+
+    context = {
+        'user': request.user,
+        'user_reg': user_reg,
+    }
+    
+    return render(request, 'editprofile.html', context)
 
 
 

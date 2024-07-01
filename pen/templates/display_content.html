@@ -70,6 +70,16 @@
     color: black;
 }
 
+.form-control1 {
+    text-align: center;
+    font-size: 24px;
+    /* border: none; */
+    border-radius: 10px;
+    background: none;
+    font-weight: bold;
+    /* color: black; */
+}
+
 textarea.form-control {
     border-radius: 10px;
     padding: 10px;
@@ -129,7 +139,7 @@ textarea.form-control {
                         {% csrf_token %}
                         <div class="col-md-12 text-center">
                             <label for="master-mark" class="form-label">Master Mark:</label>
-                            <input type="text" id="master-mark" name="master_mark" class="form-control master-mark-input">
+                            <input type="text" id="master-mark" name="master_mark" class="form-control1 master-mark-input">
                         </div>
                         <div class="row text-center mt-4">
                             <div class="col-md-3">
