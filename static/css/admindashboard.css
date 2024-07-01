@@ -78,7 +78,7 @@ color: #00A3FF;
 
     .border{
  margin-left: .5rem;
- padding-top: .6rem;
+ /* padding-top: .6rem; */
  text-align: center;
         border: 1.5px solid #FFF;
         border-radius: 5rem;
@@ -103,8 +103,12 @@ background-color: #00A3FF;
     }
 
     #authorimg img{
-        height:50px;
-        width:80px;
+        height: auto;
+        width: 50px;
+    }
+
+    .Admin-nav .btn.btn-danger {
+        border: none;
     }
     
     .admintable-body td{

@@ -13,8 +13,9 @@ urlpatterns = [
     path('login/', views.login_user, name='login'),
     path('coReg/', views.coReg, name='coReg'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
-        path('profile/', views.profile, name='profile'),
-        path('edit_profile/', views.edit_profile, name='edit_profile'),
+    path('profile/', views.profile, name='profile'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
+    
     
 
     
@@ -30,8 +31,10 @@ urlpatterns = [
     path('submission_history/', views.submission_history, name='submission_history'),
     path('subm_his_user/', views.subm_his_user, name='subm_his_user'),
     path('master_sub_hist/', views.master_sub_hist, name='master_sub_hist'),
-
+    path('master_profile/', views.master_profile, name='master_profile'),
+    path('master_edit_profile/', views.edit_master_profile, name='master_edit_profile'),
     
+
 
     path('admin_dashboard/', views.admin_dashboard,name='admin_dashboard'),
     path('adminmaster/', views.adminmaster,name='adminmaster'),
@@ -39,5 +42,5 @@ urlpatterns = [
     path('admin_master_view', views.admin_master_view,name='admin_master_view'),
     path('all_master', views.all_master,name='all_master'),
     path('all_writters', views.all_writters,name='all_writters'),
-    # path main folder latest version 1.1
+    # path main folder latest version 1.1 1.1
 ]

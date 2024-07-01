@@ -511,6 +511,47 @@ def edit_profile(request):
     
     return render(request, 'editprofile.html', context)
 
+@login_required
+def master_profile(request):
+    if not request.user.is_authenticated:
+        return redirect('login')  # Redirect to login if the user is not authenticated
+
+    if request.user.is_staff:  # Check if the user is a master (assuming masters are staff users)
+        try:
+            master_profile = Master.objects.get(user=request.user)
+        except Master.DoesNotExist:
+            master_profile = None
+
+        return render(request, 'master_profile.html', {'master': master_profile})
+    else:
+        return redirect('profile')
+
+@login_required
+def edit_master_profile(request):
+    if not request.user.is_authenticated:
+        return redirect('login')  # Redirect to login if the user is not authenticated
+
+    if request.user.is_staff:
+        master_profile = get_object_or_404(Master, user=request.user)
+
+        if request.method == 'POST':
+            master_profile.username = request.POST.get('username', master_profile.username)
+            master_profile.email = request.POST.get('email', master_profile.email)
+            master_profile.phone = request.POST.get('phone', master_profile.phone)
+            master_profile.address = request.POST.get('address', master_profile.address)
+            master_profile.qual = request.POST.get('qual', master_profile.qual)
+            master_profile.field = request.POST.get('field', master_profile.field)
+
+            # Handle file upload for profile image
+            if 'img' in request.FILES:
+                master_profile.img = request.FILES['img']
+
+            master_profile.save()
+            return redirect('master_profile')  # Redirect to profile page after saving
+
+        return render(request, 'master_edit_profile.html', {'master': master_profile})
+    else:
+        return redirect('profile')
 
 
 

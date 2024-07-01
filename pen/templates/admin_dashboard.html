@@ -68,7 +68,7 @@
             <div class="icon">
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger" style="background-color: transparent; border: 2px solid blue; color: blue;">Logout</button>
+                    <button type="submit" class="btn btn-danger" style="background-color: transparent; border: 2px solid blue; color: blue; border: none;">Logout</button>
                 </form>
             </div>
         {% endif %}
